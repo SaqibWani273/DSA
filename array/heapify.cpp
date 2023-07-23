@@ -2,8 +2,8 @@
 using namespace std;
 int main()
 {
-    int arr[20]={-1,70,30,55,40,35,25,60,50},elements=9;
-    int current,left,right,temp;;
+    int arr[20]={-1,10,70,40,30,80,35,5,25},elements=9;
+    int current,left,right,temp;
     cout<<"Given Array :\n";
     for(int i=1;i<elements;i++)
     {

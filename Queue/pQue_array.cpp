@@ -31,6 +31,7 @@ void enque(int priority){
             myQueue[i+1]=priority;
             break;
         }
+        //keeps right shifting the elements
         myQueue[i+1]=myQueue[i];
     }
     if(i==front-1)

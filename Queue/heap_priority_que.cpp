@@ -3,7 +3,7 @@ using namespace std;
 int front=1;
 int rear=8;
 int const heapSize=15;
-int maxHeap[heapSize]={-1,70,50,60,40,35,25,55,30};
+int maxHeap[heapSize]={-1,90,80,40,30,70,35,5,25};
 void insert(int prio)
 {
     if(rear==heapSize)
@@ -25,16 +25,57 @@ void insert(int prio)
     maxHeap[++rear]=prio;
     int newIndex=rear;
     int parentIndex=rear/2;
-    int temp;
+    
     while(maxHeap[parentIndex]<maxHeap[newIndex]&&newIndex!=front)
     {
-        temp=maxHeap[parentIndex];
-        maxHeap[parentIndex]=maxHeap[newIndex];
-        maxHeap[newIndex]=temp;
+        swap(maxHeap[parentIndex],maxHeap[newIndex]);
         newIndex=parentIndex;
         parentIndex/=2;
     }
 
+}
+int Deque()
+{
+    if(front==-1||front>rear)
+    {
+        cout<<"Queue underflow(empty)"<<endl;
+        return -1;
+    }
+    int frontElement=maxHeap[front];
+    maxHeap[front]=maxHeap[rear];
+    rear--;
+    int index=front;
+    while(index<=rear)
+    {
+        int leftChild=index*2;
+        int rightChild=index*2+1;
+        //initially set leftchild as larger child
+        int largerChild=leftChild;
+        //if left child exits
+        if(leftChild<=rear)
+        {
+            //if right exists and is greater than its left
+            if(rightChild<=rear&&maxHeap[rightChild]>maxHeap[leftChild])
+            {
+                largerChild=rightChild;
+            }
+            //if one of its child is larger 
+            if(maxHeap[largerChild]>maxHeap[index])
+            {
+                swap(maxHeap[largerChild],maxHeap[index]);
+                index=largerChild;
+            }
+            //if none of its child is larger
+            else{
+                break;
+            }
+        }
+        //=> we are at leaf node with no further child
+        else{
+                break;
+        }
+    }
+    return frontElement;
 }
 void display()
 {
@@ -68,8 +109,8 @@ switch(choice)
     insert(data);
     break;
     case 2:
-  //  deleted=  deque();
- // cout<<"Deleted element = "<<deleted<<endl;
+   deleted=  Deque();
+ cout<<"Deleted element = "<<deleted<<endl;
     break;
     case 3:
     display();
