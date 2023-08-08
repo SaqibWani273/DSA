@@ -52,17 +52,11 @@ void deQueue()
             {
                 if (arr[leftChild] > arr[rightChild])
                 {
-                    // int temp = arr[index];
-                    // arr[index] = arr[leftChild];
-                    // arr[leftChild] = temp;
                     swap_elements(arr[index],arr[leftChild]);
                     index = leftChild;
                 }
                 else
                 {
-                    // int temp = arr[index];
-                    // arr[index] = arr[rightChild];
-                    // arr[rightChild] = temp;
                     swap_elements(arr[index],arr[rightChild]);
                     index = rightChild;
                 }
@@ -75,18 +69,12 @@ void deQueue()
         //if node has only left child
         else if (leftChild <= size1 && arr[index] < arr[leftChild])
         {
-            // int temp = arr[index];
-            // arr[index] = arr[leftChild];
-            // arr[leftChild] = temp;
             swap_elements(arr[index],arr[leftChild]);
             index = leftChild;
         }
         //if node has only right child
         else if (rightChild <= size1 && arr[index] < arr[rightChild])
         {
-            // int temp = arr[index];
-            // arr[index] = arr[rightChild];
-            // arr[rightChild] = temp;
             swap_elements(arr[index],arr[rightChild]);
             index = rightChild;
         }
