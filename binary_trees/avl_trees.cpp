@@ -121,6 +121,105 @@ public:
         }
         return root;
     }
+   
+   int inOrderPredessor(Node *leftSubtree)
+{
+    Node *temp = leftSubtree;
+    while (temp->right)
+    {
+        temp = temp->right;
+    }
+    return temp->data;
+}
+Node *recursiveDelete(Node *currentRoot, int val)
+{
+    //initially same as for bst
+    //then need to update heights and balance if necessary
+    if (currentRoot == NULL)
+    {
+        return NULL;
+    }
+    if (val < currentRoot->data)
+    {
+        currentRoot->left = recursiveDelete(currentRoot->left, val);
+    }
+    else if (val > currentRoot->data)
+    {
+        currentRoot->right = recursiveDelete(currentRoot->right, val);
+    }
+    //=>currentRoot->data=val
+    else
+    {
+        //=>currentRoot has only leftChild
+        if (currentRoot->right == NULL)
+        {
+            return currentRoot->left;
+        }
+        //=>currentRoot has only rightChild
+        else if (currentRoot->left == NULL)
+        {
+            return currentRoot->right;
+        }
+        //=>currentRoot has both children
+        else
+        {
+            // to swap data with maxValue in leftSubtree
+            int maxValue = inOrderPredessor(currentRoot->left);
+            currentRoot->data = maxValue;
+            // to delete that particular node
+            currentRoot->left= recursiveDelete(currentRoot->left, maxValue);
+        }
+    }
+    //update heights and balance node if needed
+    currentRoot->height=max(getHeight(currentRoot->left),getHeight(currentRoot->right))+1;
+    
+    if(getBFactor(currentRoot)>1)
+    {
+        
+        //leftImbalanced=>element deleted was on the right of the node
+        Node* x=currentRoot->left;
+        //check if it is Left  Left  case or Left Right
+        // if(x->left->height>x->right->height)
+        if(getBFactor(x)>=0)
+        {
+            //Left Left case
+            currentRoot=rotateRight(currentRoot);
+
+        }
+        else
+        {
+            //Left Right Case
+            currentRoot->left=rotateLeft(currentRoot->left);
+            currentRoot=rotateRight(currentRoot);
+
+        }
+
+    }
+    else if(getBFactor(currentRoot)<-1)
+    {
+      
+        //rightImbalanced=>element deleted was on the left of the node
+        Node* x=currentRoot->right;
+        //check if it is Right Right case or Right Left
+       // if(x->right->height>x->left->height)
+       if(getBFactor(x)<=0)
+        {
+            //Right Right case
+            currentRoot=rotateLeft(currentRoot);
+        }
+        else{
+            //Right Left Case
+            currentRoot->right=rotateRight(currentRoot->right);
+             currentRoot=rotateLeft(currentRoot);
+        }
+    }
+    else
+    {
+        return currentRoot;
+    }
+    return currentRoot;
+}
+   
     void levelOrderTraversal(Node *node)
     {
         if (!node)
@@ -187,7 +286,7 @@ int main()
             cout << "enter value :" << endl;
             cin >> data;
             // deleteNode(root,data);
-            // root = recursiveDelete(root, data);
+             root =avlTree1.recursiveDelete(root, data);
             break;
         case 5:
             break;
